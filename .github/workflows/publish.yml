@@ -19,7 +19,7 @@ jobs:
           dotnet-version: 3.1.x
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ github.token }}
+          NUGET_AUTH_TOKEN: ${{ secrets.WRITE_PACKAGES_TOKEN }}
 
       - name: Create a .NET Core class library project
         run: dotnet new classlib
@@ -32,7 +32,3 @@ jobs:
 
       - name: Publish package
         run: dotnet nuget push bin/Debug/*.nupkg
-
-      - run: gh api repos/${{ github.repository_owner }}/nuget-install/dispatches <<< '{"event_type":"build"}' --input -
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
